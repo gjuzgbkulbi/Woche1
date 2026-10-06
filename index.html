@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meine Startseite</title>
+    <style>
+      :root {
+        --bg: #f4f1ea;
+        --panel: #fffdf9;
+        --panel-alt: #ebe3d7;
+        --text: #1d1d1b;
+        --muted: #4b4a47;
+        --accent: #2f5d50;
+        --accent-strong: #1d3d35;
+        --line: rgba(29, 29, 27, 0.12);
+        --shadow: 0 14px 32px rgba(27, 34, 30, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(180deg, var(--bg) 0%, #f9f7f3 100%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .container {
+        width: min(1100px, calc(100% - 2rem));
+        margin: 0 auto;
+      }
+
+      header {
+        background: rgba(255, 253, 249, 0.8);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(4px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        min-height: 72px;
+      }
+
+      .brand {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      nav {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      main {
+        padding: 2.5rem 0 4rem;
+      }
+
+      section {
+        margin-bottom: 2.75rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.4fr 0.8fr;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem 0 1rem;
+      }
+
+      .eyebrow {
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 0.5rem 0 1rem;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1.05;
+      }
+
+      p {
+        margin: 0 0 1rem;
+        color: var(--muted);
+        max-width: 62ch;
+      }
+
+      .hero-copy p:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .portrait-frame {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 0.75rem;
+        box-shadow: var(--shadow);
+      }
+
+      .portrait-frame img {
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        border-radius: 14px;
+      }
+
+      .section-heading {
+        margin-bottom: 1rem;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      thead {
+        background: var(--panel-alt);
+      }
+
+      th,
+      td {
+        padding: 0.9rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      figure {
+        margin: 0;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      figure img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+      }
+
+      figcaption {
+        padding: 0.9rem 1rem 1.1rem;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+      }
+
+      .card {
+        display: block;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        text-decoration: none;
+        box-shadow: var(--shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover,
+      .card:focus-visible {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 36px rgba(27, 34, 30, 0.12);
+      }
+
+      .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 1rem 1rem 1.2rem;
+      }
+
+      .card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .card p {
+        margin: 0;
+        font-size: 0.95rem;
+      }
+
+      @media (max-width: 760px) {
+        .hero,
+        .meta,
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          flex-direction: column;
+          justify-content: center;
+          padding: 0.9rem 0;
+        }
+
+        nav {
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 520px) {
+        th,
+        td {
+          padding: 0.7rem 0.65rem;
+          font-size: 0.92rem;
+        }
+
+        .container {
+          width: min(100% - 1rem, 1100px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container topbar">
+        <div class="brand">Lina Hartmann</div>
+        <nav aria-label="Hauptnavigation">
+          <a href="#profil">Profil</a>
+          <a href="#stationen">Stationen</a>
+          <a href="#galerie">Galerie</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="profil" class="hero" aria-labelledby="titel">
+        <div class="hero-copy">
+          <div class="eyebrow">Geoinformatik • Raum • Daten</div>
+          <h1 id="titel">Ich nutze Räume, Karten und Daten, um Fragen sichtbar zu machen.</h1>
+          <p>
+            Ich bin Lina Hartmann und arbeite mit digitalen Karten, Geodaten und räumlicher Analyse. Meine Leidenschaft liegt darin,
+            komplexe Zusammenhänge in verständliche, visuell klare Informationen zu übersetzen.
+          </p>
+          <p>
+            Ob bei Projekten zur Stadtentwicklung, zur Umweltbeobachtung oder zur Planung von Mobilität: Für mich ist Geoinformatik
+            ein Werkzeug, um Sichtbarkeit zu schaffen – zwischen Daten, Orten und Menschen.
+          </p>
+        </div>
+
+        <div class="portrait-frame">
+          <img src="assets/me.jpg" alt="Porträt von Lina Hartmann" />
+        </div>
+      </section>
+
+      <section id="stationen" aria-labelledby="stationen-title">
+        <div class="section-heading">
+          <h2 id="stationen-title">Stationen</h2>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Jahr</th>
+              <th scope="col">Station</th>
+              <th scope="col">Ort</th>
+              <th scope="col">Stichwort</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2018</td>
+              <td>Erstes GIS-Projekt</td>
+              <td>Hamburg</td>
+              <td>Landnutzung</td>
+            </tr>
+            <tr>
+              <td>2020</td>
+              <td>Geodatenanalyse</td>
+              <td>Berlin</td>
+              <td>Netzwerke</td>
+            </tr>
+            <tr>
+              <td>2021</td>
+              <td>Master-Workshop</td>
+              <td>Leipzig</td>
+              <td>Remote Sensing</td>
+            </tr>
+            <tr>
+              <td>2022</td>
+              <td>Forschungspraktikum</td>
+              <td>Freiburg</td>
+              <td>Umweltmonitoring</td>
+            </tr>
+            <tr>
+              <td>2024</td>
+              <td>Projektentwicklung</td>
+              <td>Leeds</td>
+              <td>Open Data</td>
+            </tr>
+            <tr>
+              <td>2026</td>
+              <td>Aktuelle Praxis</td>
+              <td>Heidelberg</td>
+              <td>Digitale Karten</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section aria-labelledby="leitbild-title">
+        <div class="section-heading">
+          <h2 id="leitbild-title">Mein Blick auf Geoinformation</h2>
+        </div>
+
+        <div class="meta">
+          <figure>
+            <img src="assets/me.jpg" alt="Lina Hartmann im Freien mit Karte und Notizbuch" />
+            <figcaption>Auf Reisen zwischen Daten, Landschaft und konkreten Fragen.</figcaption>
+          </figure>
+
+          <div>
+            <p>
+              Für mich ist räumliche Information mehr als eine Karte: Sie ist ein Werkzeug, um Muster zu erkennen, Konflikte sichtbar
+              zu machen und bessere Entscheidungen zu fördern. Ich interessiere mich besonders für die Verbindung von menschlicher
+              Perspektive und technischer Genauigkeit.
+            </p>
+            <p>
+              Meine Arbeit verbindet Methodik mit Klarheit – von der Datenerhebung bis zur verständlichen Darstellung. Dabei bleibt der
+              Ort immer im Mittelpunkt: als Ausgangspunkt für Analyse, Kommunikation und gemeinsames Handeln.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="galerie" aria-labelledby="galerie-title">
+        <div class="section-heading">
+          <h2 id="galerie-title">Interessante Orte</h2>
+        </div>
+
+        <div class="gallery">
+          <a class="card" href="https://www.openstreetmap.org/" target="_blank" rel="noreferrer">
+            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=900&q=80" alt="Kartenausschnitt auf einer digitalen Karte" />
+            <div class="card-body">
+              <h3>OpenStreetMap</h3>
+              <p>Globale Karten und freie Geodaten für Analysen, Planung und Entdeckungen.</p>
+            </div>
+          </a>
+
+          <a class="card" href="https://de.wikipedia.org/wiki/Geoinformatik" target="_blank" rel="noreferrer">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="Luftaufnahme einer Stadt mit Kartenlayout" />
+            <div class="card-body">
+              <h3>Geoinformatik</h3>
+              <p>Ein kurzer Überblick über die Grundlagen, Ziele und Anwendungen der Geoinformatik.</p>
+            </div>
+          </a>
+
+          <a class="card" href="https://www.arcgis.com/index.html" target="_blank" rel="noreferrer">
+            <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=900&q=80" alt="Erkunden einer räumlichen Datenlandschaft" />
+            <div class="card-body">
+              <h3>ArcGIS</h3>
+              <p>Plattform für räumliche Analyse, Kartenerstellung und digitale Entscheidungsprozesse.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
