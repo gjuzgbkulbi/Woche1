@@ -7,6 +7,7 @@
     <style>
       :root {
         --bg: #f4f1ea;
+        --bg-gradient: linear-gradient(180deg, #f4f1ea 0%, #f9f7f3 100%);
         --panel: #fffdf9;
         --panel-alt: #ebe3d7;
         --text: #1d1d1b;
@@ -15,6 +16,21 @@
         --accent-strong: #1d3d35;
         --line: rgba(29, 29, 27, 0.12);
         --shadow: 0 14px 32px rgba(27, 34, 30, 0.08);
+        --button-text: #ffffff;
+      }
+
+      body[data-theme="dark"] {
+        --bg: #121a1d;
+        --bg-gradient: linear-gradient(180deg, #121a1d 0%, #182327 100%);
+        --panel: #1b282c;
+        --panel-alt: #23363b;
+        --text: #edf3f4;
+        --muted: #c3d0d3;
+        --accent: #7bc7b1;
+        --accent-strong: #bde8d8;
+        --line: rgba(255, 255, 255, 0.08);
+        --shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+        --button-text: #0d171a;
       }
 
       * {
@@ -28,9 +44,10 @@
       body {
         margin: 0;
         font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
-        background: linear-gradient(180deg, var(--bg) 0%, #f9f7f3 100%);
+        background: var(--bg-gradient);
         color: var(--text);
         line-height: 1.6;
+        transition: background 0.25s ease, color 0.25s ease;
       }
 
       img {
@@ -48,12 +65,16 @@
       }
 
       header {
-        background: rgba(255, 253, 249, 0.8);
+        background: rgba(255, 253, 249, 0.7);
         border-bottom: 1px solid var(--line);
         backdrop-filter: blur(4px);
         position: sticky;
         top: 0;
         z-index: 10;
+      }
+
+      body[data-theme="dark"] header {
+        background: rgba(18, 26, 29, 0.8);
       }
 
       .topbar {
@@ -71,20 +92,76 @@
         text-transform: uppercase;
       }
 
-      nav {
+      .header-actions {
         display: flex;
+        align-items: center;
         gap: 1rem;
         flex-wrap: wrap;
       }
 
-      nav a {
-        text-decoration: none;
+      .tabs {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.35rem;
+        box-shadow: var(--shadow);
+      }
+
+      .tab-button,
+      .theme-toggle {
+        border: none;
+        border-radius: 999px;
+        font: inherit;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .tab-button {
+        background: transparent;
         color: var(--muted);
-        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
+        font-weight: 600;
+      }
+
+      .tab-button.active {
+        background: var(--accent);
+        color: var(--button-text);
+        box-shadow: 0 8px 18px rgba(47, 93, 80, 0.25);
+      }
+
+      .theme-toggle {
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--line);
+        padding: 0.7rem 1rem;
+        font-weight: 600;
       }
 
       main {
         padding: 2.5rem 0 4rem;
+      }
+
+      .tab-panel {
+        display: none;
+        animation: fadeIn 0.25s ease;
+      }
+
+      .tab-panel.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       section {
@@ -111,6 +188,16 @@
         margin: 0.5rem 0 1rem;
         font-size: clamp(2.2rem, 5vw, 4rem);
         line-height: 1.05;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+      }
+
+      h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
       }
 
       p {
@@ -142,36 +229,6 @@
         margin-bottom: 1rem;
       }
 
-      .section-heading h2 {
-        margin: 0;
-        font-size: clamp(1.5rem, 3vw, 2.2rem);
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-      }
-
-      thead {
-        background: var(--panel-alt);
-      }
-
-      th,
-      td {
-        padding: 0.9rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid var(--line);
-      }
-
-      tbody tr:last-child td {
-        border-bottom: none;
-      }
-
       .meta {
         display: grid;
         grid-template-columns: 0.8fr 1.2fr;
@@ -200,7 +257,33 @@
         font-size: 0.95rem;
       }
 
-      .gallery {
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      thead {
+        background: var(--panel-alt);
+      }
+
+      th,
+      td {
+        padding: 0.9rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .news-grid,
+      .project-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 1.25rem;
@@ -233,20 +316,36 @@
         padding: 1rem 1rem 1.2rem;
       }
 
-      .card h3 {
-        margin: 0 0 0.5rem;
-        font-size: 1.2rem;
-      }
-
       .card p {
         margin: 0;
         font-size: 0.95rem;
       }
 
+      .news-item {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 1.25rem;
+        box-shadow: var(--shadow);
+      }
+
+      .news-meta {
+        color: var(--accent);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .news-item h3 {
+        margin-top: 0.6rem;
+      }
+
       @media (max-width: 760px) {
         .hero,
         .meta,
-        .gallery {
+        .news-grid,
+        .project-grid {
           grid-template-columns: 1fr;
         }
 
@@ -256,7 +355,7 @@
           padding: 0.9rem 0;
         }
 
-        nav {
+        .header-actions {
           justify-content: center;
         }
       }
@@ -271,44 +370,67 @@
         .container {
           width: min(100% - 1rem, 1100px);
         }
+
+        .tabs {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .tab-button,
+        .theme-toggle {
+          flex: 1;
+        }
       }
     </style>
   </head>
-  <body>
+  <body data-theme="light">
     <header>
       <div class="container topbar">
         <div class="brand">Max Mustermann</div>
-        <nav aria-label="Hauptnavigation">
-          <a href="#profil">Profil</a>
-          <a href="#stationen">Stationen</a>
-          <a href="#galerie">Galerie</a>
-        </nav>
+
+        <div class="header-actions">
+          <div class="tabs" role="tablist" aria-label="Hauptbereiche">
+            <button class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="about-panel" id="about-tab" data-tab="about">
+              About
+            </button>
+            <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="news-panel" id="news-tab" data-tab="news">
+              News
+            </button>
+            <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="projects-panel" id="projects-tab" data-tab="projects">
+              Projekte
+            </button>
+          </div>
+
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Zwischen Light und Dark Mode wechseln">
+            Dark mode
+          </button>
+        </div>
       </div>
     </header>
 
     <main class="container">
-      <section id="profil" class="hero" aria-labelledby="titel">
-        <div class="hero-copy">
-          <div class="eyebrow">Geoinformatik • Raum • Daten</div>
-          <h1 id="titel">Ich nutze Räume, Karten und Daten, um Fragen sichtbar zu machen.</h1>
-          <p>
-            Ich bin Max Mustermann und arbeite mit digitalen Karten, Geodaten und räumlicher Analyse. Meine Leidenschaft liegt darin,
-            komplexe Zusammenhänge in verständliche, visuell klare Informationen zu übersetzen.
-          </p>
-          <p>
-            Ob bei Projekten zur Stadtentwicklung, zur Umweltbeobachtung oder zur Planung von Mobilität: Für mich ist Geoinformatik
-            ein Werkzeug, um Sichtbarkeit zu schaffen – zwischen Daten, Orten und Menschen.
-          </p>
+      <section id="about-panel" class="tab-panel active" role="tabpanel" aria-labelledby="about-tab">
+        <div class="hero" aria-labelledby="titel">
+          <div class="hero-copy">
+            <div class="eyebrow">Geoinformatik • Raum • Daten</div>
+            <h1 id="titel">Ich nutze Räume, Karten und Daten, um Fragen sichtbar zu machen.</h1>
+            <p>
+              Ich bin Max Mustermann und arbeite mit digitalen Karten, Geodaten und räumlicher Analyse. Meine Leidenschaft liegt darin,
+              komplexe Zusammenhänge in verständliche, visuell klare Informationen zu übersetzen.
+            </p>
+            <p>
+              Ob bei Projekten zur Stadtentwicklung, zur Umweltbeobachtung oder zur Planung von Mobilität: Für mich ist Geoinformatik
+              ein Werkzeug, um Sichtbarkeit zu schaffen – zwischen Daten, Orten und Menschen.
+            </p>
+          </div>
+
+          <div class="portrait-frame">
+            <img src="assets/me.jpg" alt="Porträt von Max Mustermann" />
+          </div>
         </div>
 
-        <div class="portrait-frame">
-          <img src="assets/me.jpg" alt="Porträt von Lina Hartmann" />
-        </div>
-      </section>
-
-      <section id="stationen" aria-labelledby="stationen-title">
         <div class="section-heading">
-          <h2 id="stationen-title">Stationen</h2>
+          <h2>Stationen</h2>
         </div>
 
         <table>
@@ -359,39 +481,65 @@
             </tr>
           </tbody>
         </table>
-      </section>
 
-      <section aria-labelledby="leitbild-title">
-        <div class="section-heading">
-          <h2 id="leitbild-title">Mein Blick auf Geoinformation</h2>
-        </div>
-
-        <div class="meta">
-          <figure>
-            <img src="assets/me.jpg" alt="Lina Hartmann im Freien mit Karte und Notizbuch" />
-            <figcaption>Auf Reisen zwischen Daten, Landschaft und konkreten Fragen.</figcaption>
-          </figure>
-
-          <div>
-            <p>
-              Für mich ist räumliche Information mehr als eine Karte: Sie ist ein Werkzeug, um Muster zu erkennen, Konflikte sichtbar
-              zu machen und bessere Entscheidungen zu fördern. Ich interessiere mich besonders für die Verbindung von menschlicher
-              Perspektive und technischer Genauigkeit.
-            </p>
-            <p>
-              Meine Arbeit verbindet Methodik mit Klarheit – von der Datenerhebung bis zur verständlichen Darstellung. Dabei bleibt der
-              Ort immer im Mittelpunkt: als Ausgangspunkt für Analyse, Kommunikation und gemeinsames Handeln.
-            </p>
+        <section aria-labelledby="leitbild-title">
+          <div class="section-heading">
+            <h2 id="leitbild-title">Mein Blick auf Geoinformation</h2>
           </div>
+
+          <div class="meta">
+            <figure>
+              <img src="assets/me.jpg" alt="Max Mustermann mit Karte und Notizbuch im Freien" />
+              <figcaption>Auf Reisen zwischen Daten, Landschaft und konkreten Fragen.</figcaption>
+            </figure>
+
+            <div>
+              <p>
+                Für mich ist räumliche Information mehr als eine Karte: Sie ist ein Werkzeug, um Muster zu erkennen, Konflikte sichtbar
+                zu machen und bessere Entscheidungen zu fördern. Ich interessiere mich besonders für die Verbindung von menschlicher
+                Perspektive und technischer Genauigkeit.
+              </p>
+              <p>
+                Meine Arbeit verbindet Methodik mit Klarheit – von der Datenerhebung bis zur verständlichen Darstellung. Dabei bleibt der
+                Ort immer im Mittelpunkt: als Ausgangspunkt für Analyse, Kommunikation und gemeinsames Handeln.
+              </p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="news-panel" class="tab-panel" role="tabpanel" aria-labelledby="news-tab">
+        <div class="section-heading">
+          <h2>News</h2>
+        </div>
+
+        <div class="news-grid">
+          <article class="news-item">
+            <div class="news-meta">12. Oktober 2026</div>
+            <h3>Neues Stadtentwicklungsprojekt gestartet</h3>
+            <p>Zusammen mit lokalen Partnern wird eine räumliche Analyse zu Mobilitätsmustern und Grünflächen entwickelt.</p>
+          </article>
+
+          <article class="news-item">
+            <div class="news-meta">04. Oktober 2026</div>
+            <h3>Workshop zu Open Data</h3>
+            <p>Ein intensiver Austausch zu offenen Geodaten, Qualitätskriterien und nutzerfreundlichen Kartenvisualisierungen.</p>
+          </article>
+
+          <article class="news-item">
+            <div class="news-meta">19. September 2026</div>
+            <h3>Neue Publikation erschienen</h3>
+            <p>Die aktuelle Veröffentlichung beleuchtet datenbasierte Methoden für die Bewertung von klimaresilienten Städten.</p>
+          </article>
         </div>
       </section>
 
-      <section id="galerie" aria-labelledby="galerie-title">
+      <section id="projects-panel" class="tab-panel" role="tabpanel" aria-labelledby="projects-tab">
         <div class="section-heading">
-          <h2 id="galerie-title">Interessante Orte</h2>
+          <h2>Projekte</h2>
         </div>
 
-        <div class="gallery">
+        <div class="project-grid">
           <a class="card" href="https://www.openstreetmap.org/" target="_blank" rel="noreferrer">
             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=900&q=80" alt="Kartenausschnitt auf einer digitalen Karte" />
             <div class="card-body">
@@ -418,5 +566,50 @@
         </div>
       </section>
     </main>
+
+    <script>
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+      const themeToggle = document.getElementById('theme-toggle');
+      const body = document.body;
+
+      function applyTheme(theme) {
+        const isDark = theme === 'dark';
+        body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        themeToggle.textContent = isDark ? 'Light mode' : 'Dark mode';
+        themeToggle.setAttribute('aria-label', isDark ? 'Light Mode aktivieren' : 'Dark Mode aktivieren');
+      }
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        applyTheme(savedTheme);
+      } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(prefersDark ? 'dark' : 'light');
+      }
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.tab;
+
+          tabButtons.forEach((btn) => {
+            const isActive = btn === button;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', String(isActive));
+          });
+
+          tabPanels.forEach((panel) => {
+            const isActive = panel.id === `${target}-panel`;
+            panel.classList.toggle('active', isActive);
+          });
+        });
+      });
+
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', nextTheme);
+        applyTheme(nextTheme);
+      });
+    </script>
   </body>
 </html>
